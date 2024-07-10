@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Climbing Route Generator</title>
+  </head>
+  <body>
+    <h1>Climbing Route Generator</h1>
+    <form action="/generate_route" method="post" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*">
+      <button type="submit">Generate Route</button>
+    </form>
+    <img id="output" src="" alt="Output image">
+    <script>
+      const form = document.querySelector('form');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch('/generate_route', {
+          method: 'POST',
+          body: formData,
+        })
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          document.querySelector('#output').src = url;
+        });
+      });
+    </script>
+  </body>
+</html>
